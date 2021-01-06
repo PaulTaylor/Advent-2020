@@ -1,4 +1,4 @@
-from ex01a import worker2, worker3
+from day01 import worker2, worker3
 
 def test_worker():
     x = [1721,979,366,299,675,1456]

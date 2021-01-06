@@ -1,4 +1,4 @@
-from ex2 import *
+from day02 import *
 
 def test_ex2a():
     x = [
