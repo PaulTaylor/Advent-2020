@@ -106,10 +106,7 @@ def get_tile_edges(tile):
            "".join(tile[:, -1]), \
            "".join(tile[-1])
 
-if __name__ == "__main__":
-    with open(sys.argv[-1], 'r') as f:
-        tiles = create_tiles(f.read())
-
+def do_part_a(tiles):
     all_tile_orientations = create_all_tile_orientations(tiles)
     edge_lookup = create_edge_lookup(all_tile_orientations)
 
@@ -126,7 +123,7 @@ if __name__ == "__main__":
     for idx, comp in enumerate(sorted(weakly_connected_components(G), 
                             key=lambda nodes: sum(x[1] for x in G.subgraph(nodes).nodes))):
         sub_G = G.subgraph(comp).copy()
-        nx.nx_agraph.write_dot(sub_G, f"./out/the-graph-{idx}.dot")
+        #nx.nx_agraph.write_dot(sub_G, f"./out/the-graph-{idx}.dot")
 
     # This will give a number of different combinations - which are all equivalent.  We'll pick the first one with the least amount of sorting in 
     sub_G = G.subgraph(min(weakly_connected_components(G), 
@@ -135,12 +132,11 @@ if __name__ == "__main__":
 
     ## We can now answer Part A at this point, by looking for the nodes with degree == 2
     corner_ids = [ int(n[0]) for n in sub_G.nodes if sub_G.degree(n) == 2 ]
-    part_a_result = corner_ids[0] * corner_ids[1] * corner_ids[2] * corner_ids[3] 
+    part_a_result = corner_ids[0] * corner_ids[1] * corner_ids[2] * corner_ids[3]
 
-    print(f"Part A answer = {part_a_result}")
+    return part_a_result, sub_G 
 
-
-    # ## Part B
+def do_part_b(tiles, sub_G):
     # Now we take sub_G, find the top left corner, and fill in the final image by iterating left then down
     first_tile = [ x for x in sub_G.nodes if sub_G.in_degree(x) == 0 ]
     assert len(first_tile) == 1
@@ -231,7 +227,18 @@ if __name__ == "__main__":
         res.append(look_for_monsters(np.fliplr(np.rot90(image, rot))))
 
     max_res = max(res, key=lambda x: x[0])
-    b_result = max_res[1]
+    return max_res[1]
+
+if __name__ == "__main__":
+    with open(sys.argv[-1], 'r') as f:
+        tiles = create_tiles(f.read())
+
+    part_a_result, sub_G = do_part_a(tiles)
+    print(f"Part A answer = {part_a_result}")
+
+
+    # ## Part B
+    b_result = do_part_b(tiles, sub_G)
     assert b_result < 2137, "Answer is lower than this"
     assert b_result not in [1972, 2047, 2077, 2092], "Apparently this is also not the answer"
     print("There are %d monsters and roughness score is %d" % max_res)

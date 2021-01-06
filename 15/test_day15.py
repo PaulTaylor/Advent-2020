@@ -1,3 +1,4 @@
+import pytest
 from day15 import *
 
 def test_part_a():
@@ -16,6 +17,7 @@ def test_part_a():
     for sn, desired in test_values:
         assert game(sn, 2020) == desired
 
+@pytest.mark.skip(reason="skip test because it takes a very long time!")
 def test_part_b():
     test_values = [
         ([0,3,6], 175594),

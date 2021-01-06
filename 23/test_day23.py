@@ -1,3 +1,4 @@
+import pytest
 import numpy as np
 
 from day23 import *
@@ -70,6 +71,7 @@ def test_part_a():
 
     assert value_lookup[1].create_answer_string() == "67384529"
 
+@pytest.mark.skip(reason="skip test because it takes a very long time on my pixelbook")
 def test_part_b():
     test_string = "389125467"
     cups = list(map(int, test_string))
@@ -90,7 +92,7 @@ def test_part_b():
 
     del cups, head
 
-    for _ in tqdm(range(10000000)):
+    for _ in range(10000000):
         current = do_round_ll(current, min_v, max_v, value_lookup)
 
     cup_one = value_lookup[1]
