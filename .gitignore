@@ -7,3 +7,4 @@ bin
 lib
 share
 pyvenv.cfg
+.vscode

@@ -131,7 +131,7 @@ def part_b_nx(adapters):
     edges_to_remove = find_graph_cuts(G)
     G.remove_edges_from(edges_to_remove)
 
-    nx.nx_agraph.write_dot(G, "cut-graph.dot")
+    #nx.nx_agraph.write_dot(G, "cut-graph.dot")
     
     # Iterate over components of graph
     result = 1
